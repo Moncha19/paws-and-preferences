@@ -1,20 +1,4 @@
 /**
- * DeckScreen.jsx
- * ─────────────────────────────────────────────────────────────────────────────
- * The main swiping screen. Manages the deck of cat cards and action buttons.
- *
- * Layout (top → bottom):
- *   1. Header bar   – brand name + "3 / 15" progress pill
- *   2. Card stack   – stacked CatCard components (loading / empty states too)
- *   3. Action row   – 👎 NOPE and ❤️ LIKE tap buttons
- *
- * State managed here:
- *   • cats[]         – array of Cataas image URLs
- *   • currentIndex   – index of the top card
- *   • liked[]        – URLs of cards the user swiped right on
- *   • isLoading      – true while URLs are being built
- *   • isEmpty        – true after all cards have been swiped
- *
  * Props:
  *   @prop {boolean}              isActive   - Whether this screen is shown
  *   @prop {(liked: string[]) => void} onComplete - Called with liked[] when deck is done
@@ -30,10 +14,6 @@ import CONFIG from '../config/config'
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /**
- * buildCatUrl – constructs a unique Cataas image URL.
- * Appending ?uid=<timestamp>-<index> busts the browser image cache
- * so each position in the deck loads a visually different cat.
- *
  * @param  {number} index  Card position in the deck
  * @returns {string}       Full image URL
  */

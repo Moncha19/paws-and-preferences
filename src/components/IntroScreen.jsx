@@ -1,14 +1,4 @@
 /**
- * IntroScreen.jsx
- * ─────────────────────────────────────────────────────────────────────────────
- * The landing / welcome screen users see when they first open the app.
- *
- * Sections:
- *   1. Background decorative paw prints (animated, purely visual)
- *   2. Hero block  – app icon, title, subtitle
- *   3. Swipe hint  – visual legend showing "👈 Nope" and "Like 👉"
- *   4. CTA button  – "Let's Go!" triggers cat loading and deck transition
- *
  * Props:
  *   @prop {boolean}    isActive  - Whether this screen is currently shown
  *   @prop {() => void} onStart   - Callback fired when the user clicks "Let's Go!"

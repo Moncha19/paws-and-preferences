@@ -1,16 +1,4 @@
 /**
- * CatCard.jsx
- * ─────────────────────────────────────────────────────────────────────────────
- * A single cat card in the swipe deck.
- *
- * Responsibilities:
- *   • Renders the cat image with a gradient overlay
- *   • Displays LIKE / NOPE rubber-stamp labels during dragging
- *   • Applies live rotation & translation transforms while being dragged
- *   • Attaches touch event listeners with { passive: false } (required to
- *     call preventDefault() and block browser scroll during horizontal swipes)
- *   • Triggers fly-off animation and notifies parent on confirmed swipe
- *
  * Props:
  *   @prop {string}   imageUrl    - The Cataas image URL for this card
  *   @prop {number}   index       - Card index in the original array (0-based)
@@ -107,14 +95,6 @@ function CatCard({ imageUrl, index, depth, isTop, onSwipe }) {
   // ─────────────────────────────────────────────────────────────────────────
   // TOUCH EVENT ATTACHMENT
   // ─────────────────────────────────────────────────────────────────────────
-  /*
-    We attach touchmove / touchend via addEventListener (not JSX event props)
-    because React's synthetic events are passive by default in newer versions,
-    which prevents calling preventDefault() to block native scroll.
-
-    { passive: false } opts back in to the old behaviour so we can
-    intercept horizontal touches and prevent unintended page scrolling.
-  */
   useEffect(() => {
     const card = cardRef.current
     if (!card || !isTop) return
@@ -142,10 +122,6 @@ function CatCard({ imageUrl, index, depth, isTop, onSwipe }) {
   // ─────────────────────────────────────────────────────────────────────────
   // COMPUTED STYLES
   // ─────────────────────────────────────────────────────────────────────────
-
-  // ── Stack position transform (for depth 1 / 2 cards below the top) ───────
-  // Cards beneath the top card are pushed down and scaled down to create
-  // the illusion of a physical stack without 3D CSS.
   const cappedDepth = Math.min(depth, CONFIG.VISIBLE_STACK_DEPTH - 1)
   const stackOffsetY   = cappedDepth * CONFIG.STACK_OFFSET_Y     // e.g. 12, 24 px
   const stackScaleDown = cappedDepth * CONFIG.STACK_SCALE_STEP   // e.g. 0.04, 0.08
@@ -179,9 +155,9 @@ function CatCard({ imageUrl, index, depth, isTop, onSwipe }) {
     visibility: depth < CONFIG.VISIBLE_STACK_DEPTH ? 'visible' : 'hidden',
 
     // Transform priority:
-    //   1. If flying off → CSS class handles it (card-flying-right/left)
-    //   2. If dragging   → live drag transform
-    //   3. Otherwise     → stack depth transform
+    //   1. If flying off = CSS class handles it (card-flying-right/left)
+    //   2. If dragging   = live drag transform
+    //   3. Otherwise     = stack depth transform
     transform: isFlying
       ? undefined // overridden by CSS class
       : dragTransform || `translateY(${stackOffsetY}px) scale(${1 - stackScaleDown})`,
